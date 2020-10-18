@@ -2,12 +2,14 @@ version: '3'
 
 services:
   frontend:
-    build:
-      context: ./
+    build: ./
     ports:
       - "3000:3000"
-    container_name: ffmpeg
+    container_name: frontend
+    environment:
+      - NODE_ENV=development
     tty: true
-    # stdin_open: true
+    stdin_open: true
     volumes:
-       - /var/www/ffmpeg/node_modules
+      - './:/app'
+      - '/app/node_modules'

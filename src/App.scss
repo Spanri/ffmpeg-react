@@ -1,0 +1,19 @@
+$white: white;
+$gray-dark: #1f252e;
+$violet: #a7b4ff;
+
+.app {
+  text-align: center;
+  background-color: $gray-dark;
+  min-height: 100vh;
+
+  &__header {
+    padding: 50px 30px;
+    color: $white;
+    font-size: calc(10px + 2vmin);
+  }
+}
+
+.app__link {
+  color: $violet;
+}
