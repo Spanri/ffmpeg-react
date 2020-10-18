@@ -1,0 +1,39 @@
+{
+  // Formatters
+  "javascript.preferences.quoteStyle": "double",
+
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "[typescript]": {
+    // "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+
+  // Убираем стандартные форматтеры
+  // Чтобы это работало, надо удалить из vscode плагин vscode-JS-CSS-HTML-formatter!!!
+  "javascript.format.enable": false,
+
+  // Prettier
+  "prettier.eslintIntegration": true,
+
+  // Editor
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+
+  // Eslint
+  "eslint.enable": true,
+  "eslint.workingDirectories": ["."],
+
+  "vetur.validation.template": false
+}

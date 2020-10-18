@@ -1,19 +1,62 @@
-$white: white;
-$gray-dark: #1f252e;
-$violet: #a7b4ff;
+@import "./assets/styles/variables";
 
 .app {
   text-align: center;
-  background-color: $gray-dark;
-  min-height: 100vh;
+  min-height: calc(100vh - 100px);
+  margin: 0 auto;
+  width: max-content;
+  padding: 50px 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &-wrapper {
+    background-color: $gray-dark;
+  }
 
   &__header {
-    padding: 50px 30px;
-    color: $white;
-    font-size: calc(10px + 2vmin);
-  }
-}
+    text-align: left;
+    padding-bottom: 50px;
 
-.app__link {
-  color: $violet;
+    &-title {
+      color: $white;
+      font-size: calc(10px + 2vmin);
+    }
+
+    &-description {
+      color: $gray;
+      font-size: calc(10px + 1vmin);
+    }
+  }
+
+  input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: $white;
+    cursor: inherit;
+    display: block;
+  }
+
+  .ui-button {
+    width: 100%;
+  }
+
+  &__button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__space {
+    height: 30vh;
+  }
 }

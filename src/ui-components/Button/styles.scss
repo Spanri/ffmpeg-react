@@ -1,0 +1,23 @@
+@import "../../assets/styles/variables";
+
+.ui-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  background: $violet;
+  width: max-content;
+  padding: 10px 15px;
+  color: $white;
+  border-radius: 5px;
+
+  &:hover {
+    cursor: pointer;
+    transition: 0.3s;
+    background: darken($violet, 12);
+  }
+}
