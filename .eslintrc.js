@@ -1,8 +1,10 @@
 module.exports = {
+  parser: "babel-eslint",
   env: {
     commonjs: true,
     es6: true,
     node: true,
+    browser: true,
   },
 
   extends: ["eslint:recommended", "plugin:react/recommended"],
@@ -14,7 +16,10 @@ module.exports = {
   },
   plugins: ["prettier"],
   rules: {
-    "no-console": "error",
+    "comma-dangle": 0,
+    "no-unexpected-multiline": "warn",
+    "no-unused-vars": "warn",
+    "no-console": 1,
     "prettier/prettier": "error",
   },
 };

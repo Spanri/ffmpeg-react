@@ -1,4 +1,4 @@
-# # pull official base image
+# pull official base image
 FROM node:13.12.0-alpine
 
 # RUN mkdir /usr/src/app

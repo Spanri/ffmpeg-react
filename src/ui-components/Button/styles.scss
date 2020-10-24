@@ -9,15 +9,54 @@
   cursor: pointer;
   outline: inherit;
 
-  background: $violet;
   width: max-content;
   padding: 10px 15px;
   color: $white;
   border-radius: 5px;
 
-  &:hover {
-    cursor: pointer;
-    transition: 0.3s;
-    background: darken($violet, 12);
+  &.primary {
+    background: $violet;
+    background: linear-gradient(90deg, $violet 0%, $blue 100%);
+
+    &:hover {
+      cursor: pointer;
+      transition: 0.5s;
+      box-shadow: 0px 0px 23px 2px rgba($blue, 0.6);
+    }
+  }
+
+  &.primary-animated {
+    background: $violet;
+    background: linear-gradient(90deg, $violet 0%, $blue 100%);
+    background-size: 200% 200%;
+    animation: hoverAnimation 2s ease infinite;
+
+    &:hover {
+      cursor: pointer;
+      transition: 0.5s;
+      box-shadow: 0px 0px 23px 2px rgba($blue, 0.6);
+    }
+  }
+
+  &.gray {
+    background: $gray;
+
+    &:hover {
+      cursor: pointer;
+      transition: 0.5s;
+      box-shadow: 0px 0px 23px 2px rgba($gray, 0.6);
+    }
+  }
+
+  @keyframes hoverAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 }

@@ -9,12 +9,17 @@ class Button extends React.Component {
   }
 
   render() {
-    return <button className="ui-button">{this.props.children}</button>;
+    return (
+      <button className={`ui-button ${this.props.theme || "primary"}`}>
+        {this.props.children}
+      </button>
+    );
   }
 }
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  theme: PropTypes.oneOf(["primary", "primary-animated", "gray"]),
 };
 
 export default Button;

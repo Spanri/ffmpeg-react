@@ -1,32 +1,39 @@
 import React from "react";
 import "./App.scss";
 import Button from "./ui-components/Button";
+import File from "./components/File";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      file: null,
       fileInfo: null,
     };
   }
 
-  showFile(event) {
-    let file = event.target.files[0];
-    this.setState({ file: file });
-    this.setState({ fileInfo: file.name });
+  /**
+   * Выбран ли файл
+   */
+  get isFileSelected() {
+    return !!this.state.fileInfo;
   }
 
-  componentDidMount() {
-    if (this.file) {
-      this.setState({ fileInfo: this.file.name });
+  /**
+   * Выбрать/поменять файл картинки
+   */
+  onChangeFile = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (["image/gif", "image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
+      this.setState({ fileInfo: event.target.files[0] });
+    } else {
+      alert("Вы выбрали не картинку!");
     }
-  }
+  };
 
   render() {
-    let fileInfo;
-
     return (
       <div className="app-wrapper">
         <div className="app">
@@ -34,18 +41,38 @@ class App extends React.Component {
             <strong className="app__header-title">FFMPEG</strong>
             <div className="app__header-description">Преобразование картинки в видео</div>
           </header>
-          <Button>
-            <div className="app__button">
-              <input
-                className="app__button-input"
-                type="file"
-                accept="image/*"
-                onChange={() => this.showFile.bind(this)}
-              />
-              <span>{this.file ? "Поменять файл" : "Выбрать файл"}</span>
+
+          <div className="app__buttons">
+            <div className={`app__button-wrapper ${this.isFileSelected ? "selected" : ""}`}>
+              <Button theme={this.isFileSelected ? "gray" : "primary-animated"}>
+                <div className="app__button">
+                  <input
+                    className="app__button-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={this.onChangeFile}
+                  />
+                  <span>{this.state.fileInfo ? "Поменять картинку" : "Выбрать картинку"}</span>
+                </div>
+              </Button>
             </div>
-          </Button>
-          {fileInfo ? fileInfo : <div className="app__space" />}
+
+            {this.isFileSelected ? (
+              <div className={`app__button-wrapper ${this.isFileSelected ? "selected" : ""}`}>
+                <Button>
+                  <div className="app__button">
+                    <span>Конвертировать</span>
+                  </div>
+                </Button>
+              </div>
+            ) : null}
+          </div>
+
+          {this.isFileSelected ? (
+            <File fileInfo={this.state.fileInfo} />
+          ) : (
+            <div className="app__space" />
+          )}
         </div>
       </div>
     );

@@ -47,6 +47,12 @@
     display: block;
   }
 
+  &__buttons {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .ui-button {
     width: 100%;
   }
@@ -54,6 +60,16 @@
   &__button {
     position: relative;
     overflow: hidden;
+
+    &-wrapper {
+      width: 100%;
+      margin-right: 15px;
+      margin-bottom: 15px;
+
+      &.selected {
+        width: max-content;
+      }
+    }
   }
 
   &__space {
