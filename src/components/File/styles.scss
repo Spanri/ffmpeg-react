@@ -1,7 +1,9 @@
 @import "../../assets/styles/variables";
 
 .file {
-  padding: 15px;
-  background: $gray;
+  width: calc(100% - 30px);
+  padding: 10px 15px;
+  background: $gray-light;
+  color: $black;
   border-radius: 7px;
 }

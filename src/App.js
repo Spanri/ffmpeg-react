@@ -3,34 +3,55 @@ import "./App.scss";
 import Button from "./ui-components/Button";
 import File from "./components/File";
 
+const projectName = require("@ffmpeg/ffmpeg");
+const createFFmpeg = projectName.createFFmpeg;
+// import { createFFmpeg } from "@ffmpeg/ffmpeg/src/index.js";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      fileInfo: null,
+      file: null,
+      videoFile: null,
     };
   }
 
   /**
-   * Выбран ли файл
+   * Is the file selected
    */
   get isFileSelected() {
-    return !!this.state.fileInfo;
+    return !!this.state.file;
   }
 
   /**
-   * Выбрать/поменять файл картинки
+   * Select/change image file
    */
   onChangeFile = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
     if (["image/gif", "image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
-      this.setState({ fileInfo: event.target.files[0] });
+      this.setState({ file: event.target.files[0] });
     } else {
-      alert("Вы выбрали не картинку!");
+      alert("You selected not a picture!");
     }
+  };
+
+  doTranscode = async () => {
+    const ffmpeg = createFFmpeg();
+
+    // setMessage('Loading ffmpeg-core.js');
+    await ffmpeg.load();
+    // setMessage('Start transcoding');
+    await ffmpeg.write("test.avi", "/flame.avi");
+    await ffmpeg.transcode("test.avi", "test.mp4");
+    // setMessage('Complete transcoding');
+    const data = ffmpeg.read("test.mp4");
+
+    this.setState({
+      videoFile: URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" })),
+    });
   };
 
   render() {
@@ -39,7 +60,7 @@ class App extends React.Component {
         <div className="app">
           <header className="app__header">
             <strong className="app__header-title">FFMPEG</strong>
-            <div className="app__header-description">Преобразование картинки в видео</div>
+            <div className="app__header-description">Image to video conversion</div>
           </header>
 
           <div className="app__buttons">
@@ -52,27 +73,25 @@ class App extends React.Component {
                     accept="image/*"
                     onChange={this.onChangeFile}
                   />
-                  <span>{this.state.fileInfo ? "Поменять картинку" : "Выбрать картинку"}</span>
+                  <span>{this.state.file ? "Change image" : "Select image"}</span>
                 </div>
               </Button>
             </div>
 
             {this.isFileSelected ? (
               <div className={`app__button-wrapper ${this.isFileSelected ? "selected" : ""}`}>
-                <Button>
+                <Button onChange={this.doTranscode}>
                   <div className="app__button">
-                    <span>Конвертировать</span>
+                    <span>Convert</span>
                   </div>
                 </Button>
               </div>
             ) : null}
           </div>
 
-          {this.isFileSelected ? (
-            <File fileInfo={this.state.fileInfo} />
-          ) : (
-            <div className="app__space" />
-          )}
+          {this.isFileSelected ? <File file={this.state.file} /> : null}
+
+          <div className="app__space" style={{ height: this.isFileSelected ? "20vh" : "30vh" }} />
         </div>
       </div>
     );
