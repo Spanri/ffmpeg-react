@@ -11,10 +11,13 @@ class File extends React.Component {
 
   render() {
     return (
-      <div className="file">
+      <div className="file-wrapper">
+        <div className="file">
+          <div className="file__title">{this.props.file.name}</div>
+          <img className="file__image" src={this.props.fileImage} alt="Loaded image" width="400" />
+        </div>
+
         <div className="file__type">Image</div>
-        <div>{this.props.file.name}</div>
-        {/* <video src={videoSrc} controls></video> */}
       </div>
     );
   }
@@ -22,6 +25,7 @@ class File extends React.Component {
 
 File.propTypes = {
   file: PropTypes.object,
+  fileImage: PropTypes.file,
 };
 
 export default File;

@@ -7,10 +7,11 @@ This is a small project in which I tried the React framework.
 | Name             | Why                                                    |
 | ---------------- | ------------------------------------------------------ |
 | Docker           | To avoid installing unnecessary things on computer     |
+| Ffmpeg           | Try to use ffmpeg without backend                      |
 | React            | To practice writing with this technology               |
 | Eslint, prettier | Not to think about code makeup (works well in vs code) |
 | Scss             | Easier to use BEM                                      |
-| Ffmpeg           | Try to use ffmpeg without backend                      |
+| Gh-pages         | To put it on the Github                                |
 
 ### :dog: How to start (development)
 

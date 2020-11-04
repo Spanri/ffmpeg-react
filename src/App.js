@@ -1,11 +1,12 @@
 import React from "react";
+import "regenerator-runtime/runtime.js";
 import "./App.scss";
-import Button from "./ui-components/Button";
-import File from "./components/File";
 
-const projectName = require("@ffmpeg/ffmpeg");
-const createFFmpeg = projectName.createFFmpeg;
-// import { createFFmpeg } from "@ffmpeg/ffmpeg/src/index.js";
+// import { createFFmpeg } from "@ffmpeg/ffmpeg";
+import Button from "ui-components/Button";
+import File from "components/File";
+
+import "./assets/styles/index.scss";
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class App extends React.Component {
 
     this.state = {
       file: null,
+      fileImage: null,
       videoFile: null,
     };
   }
@@ -33,25 +35,36 @@ class App extends React.Component {
 
     if (["image/gif", "image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
       this.setState({ file: event.target.files[0] });
+
+      if (FileReader) {
+        const self = this;
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = function (e) {
+          self.setState({ fileImage: e.target.result });
+          console.log(typeof e.target.result);
+        };
+      } else {
+        alert("Not supported in your browser:(");
+      }
     } else {
       alert("You selected not a picture!");
     }
   };
 
   doTranscode = async () => {
-    const ffmpeg = createFFmpeg();
-
-    // setMessage('Loading ffmpeg-core.js');
-    await ffmpeg.load();
-    // setMessage('Start transcoding');
-    await ffmpeg.write("test.avi", "/flame.avi");
-    await ffmpeg.transcode("test.avi", "test.mp4");
-    // setMessage('Complete transcoding');
-    const data = ffmpeg.read("test.mp4");
-
-    this.setState({
-      videoFile: URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" })),
-    });
+    // const ffmpeg = createFFmpeg();
+    // // setMessage('Loading ffmpeg-core.js');
+    // await ffmpeg.load();
+    // // setMessage('Start transcoding');
+    // await ffmpeg.write("test.avi", "/flame.avi");
+    // await ffmpeg.transcode("test.avi", "test.mp4");
+    // // setMessage('Complete transcoding');
+    // const data = ffmpeg.read("test.mp4");
+    // this.setState({
+    //   videoFile: URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" })),
+    // });
   };
 
   render() {
@@ -59,7 +72,9 @@ class App extends React.Component {
       <div className="app-wrapper">
         <div className="app">
           <header className="app__header">
-            <strong className="app__header-title">FFMPEG</strong>
+            <strong className="app__header-title">
+              FFMPEG {this.isFileSelected ? "🐺🐺🐺🐺" : "🦄🦄🦄"}
+            </strong>
             <div className="app__header-description">Image to video conversion</div>
           </header>
 
@@ -89,7 +104,9 @@ class App extends React.Component {
             ) : null}
           </div>
 
-          {this.isFileSelected ? <File file={this.state.file} /> : null}
+          {this.isFileSelected ? (
+            <File file={this.state.file} fileImage={this.state.fileImage} />
+          ) : null}
 
           <div className="app__space" style={{ height: this.isFileSelected ? "20vh" : "30vh" }} />
         </div>

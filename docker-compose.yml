@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   frontend:
@@ -11,5 +11,5 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - './:/app'
-      - '/app/node_modules'
+      - "./:/app"
+      - "./:/app/node_modules"

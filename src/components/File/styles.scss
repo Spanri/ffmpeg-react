@@ -4,6 +4,23 @@
   width: calc(100% - 30px);
   padding: 10px 15px;
   background: $gray-light;
-  color: $black;
   border-radius: 7px;
+
+  &__type {
+    text-align: right;
+    width: 100%;
+    color: $white;
+    font-size: 13px;
+    padding-top: 6px;
+  }
+
+  &__title {
+    padding: 10px;
+    padding-top: 0;
+    color: $black;
+  }
+
+  &__image {
+    border-radius: 5px;
+  }
 }
