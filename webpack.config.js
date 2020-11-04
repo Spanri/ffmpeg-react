@@ -12,6 +12,7 @@ module.exports = {
     modules: [path.join(__dirname, "src"), "node_modules"],
     alias: {
       react: path.join(__dirname, "node_modules", "react"),
+      node_modules: path.join(__dirname, "node_modules"),
       components: path.resolve(__dirname, "src", "components"),
       "ui-components": path.resolve(__dirname, "src", "ui-components"),
     },

@@ -4,6 +4,7 @@
   "private": false,
   "homepage": "http://spanri.github.io/ffmpeg-react",
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.8.3",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -15,7 +16,7 @@
     "start": "webpack-dev-server --mode=development --open --hot",
     "build": "webpack --mode=production",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "browserslist": {
     "production": [

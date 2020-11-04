@@ -8,9 +8,19 @@ class Button extends React.Component {
     this.state = { date: new Date() };
   }
 
+  handleClick(event) {
+    if (this.props.onClick) {
+      this.props.onClick(event);
+    }
+  }
+
   render() {
     return (
-      <button className={`ui-button ${this.props.theme || "primary"}`}>
+      <button
+        className={`ui-button ${this.props.theme || "primary"}`}
+        disabled={this.props.disabled}
+        onClick={() => this.handleClick()}
+      >
         {this.props.children}
       </button>
     );
@@ -20,6 +30,8 @@ class Button extends React.Component {
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   theme: PropTypes.oneOf(["primary", "primary-animated", "gray"]),
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default Button;

@@ -2,7 +2,7 @@ import React from "react";
 import "regenerator-runtime/runtime.js";
 import "./App.scss";
 
-// import { createFFmpeg } from "@ffmpeg/ffmpeg";
+import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import Button from "ui-components/Button";
 import File from "components/File";
 
@@ -15,7 +15,8 @@ class App extends React.Component {
     this.state = {
       file: null,
       fileImage: null,
-      videoFile: null,
+      fileVideo: null,
+      isConverting: false,
     };
   }
 
@@ -27,9 +28,16 @@ class App extends React.Component {
   }
 
   /**
+   * Is the video converted
+   */
+  get isVideoConverted() {
+    return !!this.state.fileVideo;
+  }
+
+  /**
    * Select/change image file
    */
-  onChangeFile = (event) => {
+  onChangeFile(event) {
     const file = event.target.files[0];
     if (!file) return;
 
@@ -43,29 +51,55 @@ class App extends React.Component {
 
         reader.onload = function (e) {
           self.setState({ fileImage: e.target.result });
-          console.log(typeof e.target.result);
         };
       } else {
         alert("Not supported in your browser:(");
       }
+
+      this.setState({ isVideoConverted: false });
     } else {
       alert("You selected not a picture!");
     }
-  };
+  }
 
-  doTranscode = async () => {
-    // const ffmpeg = createFFmpeg();
-    // // setMessage('Loading ffmpeg-core.js');
-    // await ffmpeg.load();
-    // // setMessage('Start transcoding');
-    // await ffmpeg.write("test.avi", "/flame.avi");
-    // await ffmpeg.transcode("test.avi", "test.mp4");
-    // // setMessage('Complete transcoding');
-    // const data = ffmpeg.read("test.mp4");
-    // this.setState({
-    //   videoFile: URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" })),
-    // });
-  };
+  async doTranscode() {
+    this.setState({ isConverting: true });
+
+    try {
+      const ffmpeg = createFFmpeg();
+      await ffmpeg.load();
+      await ffmpeg.write(this.state.file.name, this.state.file);
+      await ffmpeg.run(
+        "-loop",
+        "1",
+        "-r",
+        "30",
+        "-i",
+        this.state.file.name,
+        "-t",
+        "5",
+        "-vf",
+        "'scale=1440:720,format=yuv420p'",
+        "-codec:v",
+        "libx264",
+        "output.mp4"
+      );
+      // await ffmpeg.transcode("test.jpg", "test.mp4", );
+      console.log("pre-data", ffmpeg);
+      const data = ffmpeg.read("output.mp4");
+      console.log("data", data);
+      this.setState({
+        fileVideo: URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" })),
+      });
+
+      this.setState({ isVideoConverted: true });
+    } catch (error) {
+      console.log(error);
+      alert("Error: " + error.message);
+    }
+
+    this.setState({ isConverting: false });
+  }
 
   render() {
     return (
@@ -73,7 +107,8 @@ class App extends React.Component {
         <div className="app">
           <header className="app__header">
             <strong className="app__header-title">
-              FFMPEG {this.isFileSelected ? "🐺🐺🐺🐺" : "🦄🦄🦄"}
+              FFMPEG{" "}
+              {this.isFileSelected ? (this.isVideoConverted ? "🐸🐸🐸🐸🐸" : "🐺🐺🐺🐺") : "🦄🦄🦄"}
             </strong>
             <div className="app__header-description">Image to video conversion</div>
           </header>
@@ -86,7 +121,7 @@ class App extends React.Component {
                     className="app__button-input"
                     type="file"
                     accept="image/*"
-                    onChange={this.onChangeFile}
+                    onChange={(event) => this.onChangeFile(event)}
                   />
                   <span>{this.state.file ? "Change image" : "Select image"}</span>
                 </div>
@@ -95,17 +130,24 @@ class App extends React.Component {
 
             {this.isFileSelected ? (
               <div className={`app__button-wrapper ${this.isFileSelected ? "selected" : ""}`}>
-                <Button onChange={this.doTranscode}>
+                {this.state.isConverting}
+                <Button disabled={this.state.isConverting} onClick={() => this.doTranscode()}>
                   <div className="app__button">
                     <span>Convert</span>
                   </div>
                 </Button>
+
+                {this.state.isConverting ? <div className="app__doing">doing...</div> : null}
               </div>
             ) : null}
           </div>
 
           {this.isFileSelected ? (
-            <File file={this.state.file} fileImage={this.state.fileImage} />
+            <File
+              file={this.state.file}
+              fileImage={this.state.fileImage}
+              fileVideo={this.state.fileVideo}
+            />
           ) : null}
 
           <div className="app__space" style={{ height: this.isFileSelected ? "20vh" : "30vh" }} />
