@@ -1,6 +1,7 @@
 import React from "react";
 import "regenerator-runtime/runtime.js";
 import "./App.scss";
+import { YMInitializer } from "react-yandex-metrika";
 import Actions from "components/Actions";
 import Form from "components/Form";
 import File from "components/File";
@@ -12,6 +13,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      YMAccount: 69129496,
       file: null,
       fileImageBase64: "",
       fileVideoUrl: "",
@@ -111,6 +113,8 @@ class App extends React.Component {
           {/* empty space */}
           <div style={{ height: this.currentStep.number > 1 ? "20vh" : "30vh" }} />
         </div>
+
+        <YMInitializer accounts={[this.state.YMAccount]} />
       </div>
     );
   }
