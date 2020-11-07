@@ -1,0 +1,60 @@
+@import "../../assets/styles/variables";
+
+input[type="file"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: $white;
+  cursor: inherit;
+  display: block;
+}
+
+.ui-button {
+  width: max-content;
+  min-width: 150px;
+
+  @media (max-width: 500px) {
+    min-width: auto;
+  }
+}
+
+.buttons-header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    position: relative;
+    overflow: hidden;
+
+    &-wrapper {
+      position: relative;
+      width: max-content;
+      margin-right: 15px;
+      margin-bottom: 15px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.not-selected {
+        width: 100%;
+
+        .ui-button {
+          width: 100%;
+        }
+      }
+
+      &.download {
+        width: max-content;
+      }
+    }
+  }
+}

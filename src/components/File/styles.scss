@@ -10,11 +10,11 @@
   }
 
   &__type {
-    text-align: right;
+    text-align: left;
     width: 100%;
-    color: $white;
+    color: $gray;
     font-size: calc(9px + 1vmin);
-    padding-top: 6px;
+    padding-bottom: 8px;
   }
 
   &__title {
@@ -24,9 +24,9 @@
     font-size: calc(10px + 1vmin);
   }
 
-  &__image {
+  &__content {
     border-radius: 5px;
-    width: 400px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 600px;
   }
 }

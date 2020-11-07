@@ -1,0 +1,20 @@
+@import "../../assets/styles/variables";
+
+.ui-input {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+  outline: none;
+
+  background: $gray;
+  color: $black;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+
+  &:focus {
+    border-color: $blue;
+    color: $white;
+  }
+}

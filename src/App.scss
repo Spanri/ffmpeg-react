@@ -33,41 +33,6 @@
     }
   }
 
-  input[type="file"] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: $white;
-    cursor: inherit;
-    display: block;
-  }
-
-  &__buttons {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-
-    &-wrapper {
-      width: 100%;
-    }
-  }
-
-  .ui-button {
-    width: 100%;
-    min-width: 150px;
-
-    @media (max-width: 500px) {
-      min-width: auto;
-    }
-  }
-
   &__doing {
     transition: 0.3s;
     color: $white;
@@ -78,28 +43,8 @@
     margin-bottom: 20px;
   }
 
-  &__button {
-    position: relative;
-    overflow: hidden;
-
-    &-wrapper {
-      position: relative;
-      width: 100%;
-      margin-right: 15px;
-      margin-bottom: 15px;
-
-      &:last-child {
-        margin-right: 0;
-      }
-
-      &.selected {
-        width: max-content;
-      }
-
-      &.download {
-        width: max-content;
-      }
-    }
+  &__actions-and-form {
+    width: 100%;
   }
 }
 
