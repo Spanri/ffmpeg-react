@@ -14,7 +14,7 @@ class File extends React.Component {
         <div className="form__item">
           <span className="form__label">Width (pixel):</span>
           <Input
-            type="text"
+            type="number"
             value={this.props.form.width}
             onChange={(event) => this.props.handleStateForm({ width: event.target.value })}
           />
@@ -23,7 +23,7 @@ class File extends React.Component {
         <div className="form__item">
           <span className="form__label">Height (pixel):</span>
           <Input
-            type="text"
+            type="number"
             value={this.props.form.height}
             onChange={(event) => this.props.handleStateForm({ height: event.target.value })}
           />
@@ -32,7 +32,7 @@ class File extends React.Component {
         <div className="form__item">
           <span className="form__label">Duration (sec):</span>
           <Input
-            type="text"
+            type="number"
             value={this.props.form.duration}
             onChange={(event) => this.props.handleStateForm({ duration: event.target.value })}
           />

@@ -92,12 +92,15 @@ class Actions extends React.Component {
         throw { message: "you set up the form incorrectly:(" };
       }
 
-      if (form.height > 4000 || form.width > 4000 || form.duration > 60) {
-        const description = "Bro, this will put a lot of stress on your computer.";
-        if (!confirm(`${description} Do you want to continue?`)) {
-          this.handleOuterState({ convertingStatus: "doing", isConverting: false });
-          return;
-        }
+      const MAX_HEIGHT = 5000;
+      const MAX_WIDTH = 5000;
+      const MAX_DURATION = 60;
+
+      if (form.height > MAX_HEIGHT || form.width > MAX_WIDTH || form.duration > MAX_DURATION) {
+        const rules = `max: w - ${MAX_WIDTH}, h - ${MAX_HEIGHT}, d - ${MAX_DURATION}`;
+        throw {
+          message: `too big parameters, the application will crash... (${rules})`,
+        };
       }
 
       await ffmpeg.load();
