@@ -65,14 +65,13 @@
   }
 
   &__doing {
+    transition: 0.3s;
     color: $white;
     background: $violet;
-    padding: 4px 8px;
+    padding: 6px 23px 6px 11px;
     border-radius: 5px;
-    font-size: 13px;
-    position: absolute;
-    top: -10px;
-    right: -15px;
+    font-size: calc(10px + 1vmin);
+    margin-bottom: 20px;
   }
 
   &__button {
@@ -93,5 +92,29 @@
         width: max-content;
       }
     }
+  }
+}
+
+.loading:after {
+  content: "  .";
+  animation: dots 1.3s steps(5, end) infinite;
+}
+
+@keyframes dots {
+  0%,
+  20% {
+    color: $black;
+    text-shadow: 0.25em 0 0 $black, 0.5em 0 0 $black;
+  }
+  40% {
+    color: $white;
+    text-shadow: 0.25em 0 0 $black, 0.5em 0 0 $black;
+  }
+  60% {
+    text-shadow: 0.25em 0 0 $white, 0.5em 0 0 $black;
+  }
+  80%,
+  100% {
+    text-shadow: 0.25em 0 0 $white, 0.5em 0 0 $white;
   }
 }
