@@ -6,7 +6,6 @@ import File from "components/File";
 import "./assets/styles/index.scss";
 
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
-import { transliterate } from "./file.helper";
 
 class App extends React.Component {
   constructor(props) {
@@ -14,13 +13,50 @@ class App extends React.Component {
 
     this.state = {
       file: null,
-      fileImage: null,
-      fileVideo: null,
+      fileImageBase64: "",
+      fileVideoUrl: "",
       // Is button "Convert" pressed?
       isConverting: false,
       // What to write in the loading plate
       convertingStatus: "",
     };
+  }
+
+  get currentStep() {
+    switch (true) {
+      // Is the file not selected
+      case !!!this.state.file:
+        return {
+          number: 1,
+          icons: "🦄🦄🦄",
+          selectButtonTheme: "primary-animated",
+          selectButtonText: "Select image",
+        };
+      // Is the file selected, but not converted
+      case !!this.state.file && !!!this.state.fileVideoUrl:
+        return {
+          number: 2,
+          icons: "🐺🐺🐺🐺",
+          selectButtonTheme: "gray",
+          selectButtonText: "Change image",
+        };
+      // Is the file selected and converted
+      case !!this.state.file && !!this.state.fileVideoUrl:
+        return {
+          number: 3,
+          icons: "🐸🐸🐸🐸🐸",
+          selectButtonTheme: "primary-animated",
+          selectButtonText: "Select other image",
+        };
+      // other
+      default:
+        return {
+          number: 0,
+          icons: "😥😥😥",
+          selectButtonTheme: "gray",
+          selectButtonText: "Select image",
+        };
+    }
   }
 
   /**
@@ -34,7 +70,13 @@ class App extends React.Component {
    * Is the video converted
    */
   get isVideoConverted() {
-    return !!this.state.fileVideo;
+    return !!this.state.fileVideoUrl;
+  }
+
+  get fileVideoName() {
+    const re = /(?:\.([^.]+))?$/;
+    const nameWithoutExtension = this.state.file.name.replace(re, "");
+    return nameWithoutExtension + ".mp4";
   }
 
   /**
@@ -53,13 +95,13 @@ class App extends React.Component {
         reader.readAsDataURL(event.target.files[0]);
 
         reader.onload = function (e) {
-          self.setState({ fileImage: e.target.result });
+          self.setState({ fileImageBase64: e.target.result });
         };
       } else {
         alert("Not supported in your browser:(");
       }
 
-      this.setState({ isVideoConverted: false });
+      this.setState({ fileVideoUrl: false });
     } else {
       alert("You selected not a picture!");
     }
@@ -70,16 +112,10 @@ class App extends React.Component {
     this.setState({ isConverting: true });
 
     try {
-      const transliterateFileName = (fileName) => {
-        const fileNameArray = fileName.split(" ");
-        return fileNameArray.map((word) => transliterate(word)).join("_");
-      };
-
       const file = this.state.file;
-      var re = /(?:\.([^.]+))?$/;
-      var fileName = transliterateFileName(file.name.replace(re, ""));
-      var fileExtension = re.exec(file.name)[1];
-      const ffmpeg = createFFmpeg({ log: true });
+      const re = /(?:\.([^.]+))?$/;
+      const fileExtension = re.exec(file.name)[1];
+      const ffmpeg = createFFmpeg();
 
       this.setState({ convertingStatus: "preparing" });
 
@@ -89,14 +125,14 @@ class App extends React.Component {
       this.setState({ convertingStatus: "converting" });
 
       await ffmpeg.run(
-        `-loop 1 -r 30 -i "input.${fileExtension}" -t 5 -vf "scale=1440:720,format=yuv420p" -codec:v libx264 ${fileName}.mp4`
+        `-loop 1 -r 30 -i "input.${fileExtension}" -t 5 -vf "scale=1440:720,format=yuv420p" -codec:v libx264 output.mp4`
       );
 
       this.setState({ convertingStatus: "loading" });
 
-      const data = ffmpeg.read(`${fileName}.mp4`);
+      const data = ffmpeg.read("output.mp4");
       this.setState({
-        fileVideo: URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" })),
+        fileVideoUrl: URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" })),
       });
 
       this.setState({ isVideoConverted: true });
@@ -108,24 +144,35 @@ class App extends React.Component {
     this.setState({ convertingStatus: "doing" });
   }
 
+  downloadVideo() {
+    try {
+      const link = document.createElement("a");
+      link.download = this.fileVideoName;
+      link.href = this.state.fileVideoUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      // delete link;
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  }
+
   render() {
     return (
       <div className="app-wrapper">
         <div className="app">
           <header className="app__header">
-            <strong className="app__header-title">
-              FFMPEG{" "}
-              {this.isFileSelected ? (this.isVideoConverted ? "🐸🐸🐸🐸🐸" : "🐺🐺🐺🐺") : "🦄🦄🦄"}
-            </strong>
+            <strong className="app__header-title">FFMPEG {this.currentStep.icons}</strong>
             <div className="app__header-description">Image to video conversion</div>
           </header>
 
           {this.state.isConverting ? (
             <div className="app__doing loading">{this.state.convertingStatus}</div>
           ) : (
-            <div className={"app__buttons"}>
+            <div className="app__buttons">
               <div className={`app__button-wrapper ${this.isFileSelected ? "selected" : ""}`}>
-                <Button theme={this.isFileSelected ? "gray" : "primary-animated"}>
+                <Button theme={this.currentStep.selectButtonTheme}>
                   <div className="app__button">
                     <input
                       className="app__button-input"
@@ -133,32 +180,43 @@ class App extends React.Component {
                       accept="image/*"
                       onChange={(event) => this.onChangeFile(event)}
                     />
-                    <span>{this.state.file ? "Change image" : "Select image"}</span>
+                    <span>{this.currentStep.selectButtonText}</span>
                   </div>
                 </Button>
               </div>
 
-              {this.isFileSelected ? (
+              {this.currentStep.number == 2 ? (
                 <div className={`app__button-wrapper ${this.isFileSelected ? "selected" : ""}`}>
-                  <Button disabled={this.state.isConverting} onClick={() => this.doTranscode()}>
+                  <Button onClick={() => this.doTranscode()}>
                     <div className="app__button">
                       <span>Convert</span>
                     </div>
                   </Button>
                 </div>
               ) : null}
+
+              {this.currentStep.number == 3 ? (
+                <div className="app__button-wrapper download">
+                  <Button theme="gray" onClick={() => this.downloadVideo()}>
+                    Download video
+                  </Button>
+                </div>
+              ) : null}
             </div>
           )}
 
-          {this.isFileSelected ? (
+          {this.currentStep.number > 1 ? (
             <File
               file={this.state.file}
-              fileImage={this.state.fileImage}
-              fileVideo={this.state.fileVideo}
+              fileImageBase64={this.state.fileImageBase64}
+              fileVideoUrl={this.state.fileVideoUrl}
             />
           ) : null}
 
-          <div className="app__space" style={{ height: this.isFileSelected ? "20vh" : "30vh" }} />
+          <div
+            className="app__space"
+            style={{ height: this.currentStep.number > 1 ? "20vh" : "30vh" }}
+          />
         </div>
       </div>
     );

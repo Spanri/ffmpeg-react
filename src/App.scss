@@ -53,6 +53,10 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+
+    &-wrapper {
+      width: 100%;
+    }
   }
 
   .ui-button {
@@ -89,6 +93,10 @@
       }
 
       &.selected {
+        width: max-content;
+      }
+
+      &.download {
         width: max-content;
       }
     }
