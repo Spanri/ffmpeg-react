@@ -4,14 +4,15 @@ This is a small project in which I tried the React framework.
 
 ### :dog: Technologies
 
-| Name             | Why                                                    |
-| ---------------- | ------------------------------------------------------ |
-| Docker           | To avoid installing unnecessary things on computer     |
-| Ffmpeg           | Try to use ffmpeg without backend                      |
-| React            | To practice writing with this technology               |
-| Eslint, prettier | Not to think about code makeup (works well in vs code) |
-| Scss             | Easier to use BEM                                      |
-| Gh-pages         | To put it on the Github                                |
+| Name                       | Why                                                    |
+| -------------------------- | ------------------------------------------------------ |
+| Docker                     | To avoid installing unnecessary things on computer     |
+| Ffmpeg                     | Try to use ffmpeg wasm without backend                 |
+| React                      | To practice writing with this technology               |
+| Custom webpack without cra | To understand the webpack                              |
+| Eslint, prettier           | Not to think about code makeup (works well in vs code) |
+| Scss                       | Easier to use BEM                                      |
+| Gh-pages                   | To put it on the Github                                |
 
 ### :dog: How to start (development)
 
