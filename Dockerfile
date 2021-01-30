@@ -1,18 +1,21 @@
 # pull official base image
-FROM node:13.12.0-alpine
+FROM node:12.18.3
 
-# RUN mkdir /usr/src/app
-WORKDIR /app
+WORKDIR /var/www/app
 
+# "node-sass": "^5.0.0",
 # add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH ./node_modules/.bin:$PATH
+
+# Copy file from "reality" to image
+COPY . ./
+
+RUN ls
 
 # install and cache app dependencies
-ADD package.json /app/package.json
 RUN npm install
 
-# add app
-ADD . /app
+EXPOSE 3000
 
-# start app
+# Will be done every time you start the container
 CMD ["npm", "start"]

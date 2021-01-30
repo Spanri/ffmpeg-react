@@ -28,7 +28,7 @@ class Button extends React.Component {
         className="ui-input"
         type={this.props.type}
         value={this.props.value}
-        onKeyPress={(event) => (this.props.type == "number" ? this.onlyNumber(event) : null)}
+        onKeyPress={(event) => (this.props.type === "number" ? this.onlyNumber(event) : null)}
         onChange={(event) => this.handleChange(event)}
       />
     );

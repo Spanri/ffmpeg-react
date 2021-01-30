@@ -4,9 +4,9 @@ import Input from "ui-components/Input";
 import "./styles.scss";
 
 class File extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   render() {
     return (

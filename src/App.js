@@ -1,12 +1,11 @@
 import React from "react";
 import "regenerator-runtime/runtime.js";
-import "./App.scss";
 import { YMInitializer } from "react-yandex-metrika";
+import "./App.scss";
+
 import Actions from "components/Actions";
 import Form from "components/Form";
 import File from "components/File";
-
-import "./assets/styles/index.scss";
 
 class App extends React.Component {
   constructor(props) {
@@ -33,13 +32,13 @@ class App extends React.Component {
   get currentStep() {
     switch (true) {
       // Is the file not selected
-      case !!!this.state.file:
+      case !this.state.file:
         return {
           number: 1,
           icons: "🦄🦄🦄",
         };
       // Is the file selected, but not converted
-      case !!this.state.file && !!!this.state.fileVideoUrl:
+      case !!this.state.file && !this.state.fileVideoUrl:
         return {
           number: 2,
           icons: "🐺🐺🐺🐺",
@@ -90,7 +89,7 @@ class App extends React.Component {
                 handleOuterState={(newState) => this.handleState(newState)}
               />
 
-              {this.currentStep.number == 2 ? (
+              {this.currentStep.number === 2 ? (
                 <Form
                   form={this.state.form}
                   handleStateForm={(newForm) => this.handleStateForm(newForm)}

@@ -12,12 +12,12 @@ class File extends React.Component {
   get currentFile() {
     switch (true) {
       // Image
-      case !!this.props.fileImageBase64 && !!!this.props.fileVideoUrl:
+      case !!this.props.fileImageBase64 && !this.props.fileVideoUrl:
         return {
           type: "Image",
           title: this.props.file.name,
           htmlContent: (
-            <img className="file__content" src={this.props.fileImageBase64} alt="Loaded image" />
+            <img className="file__content" src={this.props.fileImageBase64} alt="Loaded" />
           ),
         };
 

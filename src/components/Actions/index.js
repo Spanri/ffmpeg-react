@@ -89,7 +89,7 @@ class Actions extends React.Component {
       this.handleOuterState({ convertingStatus: "preparing" });
 
       if (!form.width || !form.height || !form.duration) {
-        throw { message: "you set up the form incorrectly:(" };
+        throw Error({ message: "you set up the form incorrectly:(" });
       }
 
       const MAX_HEIGHT = 5000;
@@ -98,9 +98,9 @@ class Actions extends React.Component {
 
       if (form.height > MAX_HEIGHT || form.width > MAX_WIDTH || form.duration > MAX_DURATION) {
         const rules = `max: w - ${MAX_WIDTH}, h - ${MAX_HEIGHT}, d - ${MAX_DURATION}`;
-        throw {
+        throw Error({
           message: `too big parameters, the application will crash... (${rules})`,
-        };
+        });
       }
 
       await ffmpeg.load();
@@ -128,7 +128,9 @@ class Actions extends React.Component {
   }
 
   deleteVideoFile() {
-    if (confirm("Are you sure you want to delete this video file and go to previous step?")) {
+    if (
+      window.confirm("Are you sure you want to delete this video file and go to previous step?")
+    ) {
       this.handleOuterState({ isVideoConverted: false, fileVideoUrl: null });
     }
   }
@@ -167,13 +169,13 @@ class Actions extends React.Component {
           </Button>
         </div>
 
-        {this.currentStep.number == 2 ? (
+        {this.currentStep.number === 2 ? (
           <div className="buttons-header__item-wrapper">
             <Button onClick={() => this.doTranscode()}>Convert</Button>
           </div>
         ) : null}
 
-        {this.currentStep.number == 3 ? (
+        {this.currentStep.number === 3 ? (
           <div className="buttons-header__item-wrapper">
             <Button theme="gray" onClick={() => this.deleteVideoFile()}>
               Set other parameters
@@ -181,7 +183,7 @@ class Actions extends React.Component {
           </div>
         ) : null}
 
-        {this.currentStep.number == 3 ? (
+        {this.currentStep.number === 3 ? (
           <div className="buttons-header__item-wrapper download">
             <Button theme="primary-animated" onClick={() => this.downloadVideo()}>
               Download video
@@ -195,7 +197,7 @@ class Actions extends React.Component {
 
 Actions.propTypes = {
   file: PropTypes.object,
-  currentStepNumber: PropTypes.object,
+  currentStepNumber: PropTypes.number,
   fileVideoUrl: PropTypes.string,
   form: PropTypes.object,
   handleOuterState: PropTypes.func,
