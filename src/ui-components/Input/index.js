@@ -18,7 +18,11 @@ class Button extends React.Component {
 
   handleChange(event) {
     if (this.props.onChange) {
-      this.props.onChange(event);
+      this.props.onChange(event.target.value);
+    }
+
+    if (this.props.onChangeFull) {
+      this.props.onChangeFull(event);
     }
   }
 
@@ -40,6 +44,7 @@ Button.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
+  onChangeFull: PropTypes.func,
 };
 
 export default Button;

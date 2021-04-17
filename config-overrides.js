@@ -24,10 +24,11 @@ module.exports = function override(config) {
   config.resolve.alias = {
     ...config.resolve.alias,
     react: path.join(__dirname, "node_modules", "react"),
-    node_modules: path.join(__dirname, "node_modules"),
-    assets: path.resolve(__dirname, "src", "assets"),
-    components: path.resolve(__dirname, "src", "components"),
-    "ui-components": path.resolve(__dirname, "src", "ui-components"),
+    "@node_modules": path.join(__dirname, "node_modules"),
+    "@assets": path.resolve(__dirname, "src", "assets"),
+    "@components": path.resolve(__dirname, "src", "components"),
+    "@ui-components": path.resolve(__dirname, "src", "ui-components"),
+    "@helpers": path.resolve(__dirname, "src", "helpers"),
   };
 
   return config;

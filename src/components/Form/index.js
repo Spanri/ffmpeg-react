@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Input from "ui-components/Input";
+
 import "./styles.scss";
 
-class File extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+import Input from "@ui-components/Input";
 
+class File extends React.Component {
   render() {
     return (
       <div className="form">
@@ -16,7 +14,7 @@ class File extends React.Component {
           <Input
             type="number"
             value={this.props.form.width}
-            onChange={(event) => this.props.handleStateForm({ width: event.target.value })}
+            onChange={(value) => this.props.onChange({ width: value })}
           />
         </div>
 
@@ -25,7 +23,7 @@ class File extends React.Component {
           <Input
             type="number"
             value={this.props.form.height}
-            onChange={(event) => this.props.handleStateForm({ height: event.target.value })}
+            onChange={(value) => this.props.onChange({ height: value })}
           />
         </div>
 
@@ -34,7 +32,7 @@ class File extends React.Component {
           <Input
             type="number"
             value={this.props.form.duration}
-            onChange={(event) => this.props.handleStateForm({ duration: event.target.value })}
+            onChange={(value) => this.props.onChange({ duration: value })}
           />
         </div>
       </div>
@@ -44,7 +42,7 @@ class File extends React.Component {
 
 File.propTypes = {
   form: PropTypes.object,
-  handleStateForm: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default File;

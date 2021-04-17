@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import "./styles.scss";
 
 class File extends React.Component {
@@ -23,19 +24,21 @@ class File extends React.Component {
 
       // Video
       case !!this.props.fileImageBase64 && !!this.props.fileVideoUrl:
-        const re = /(?:\.([^.]+))?$/;
-        const nameWithoutExtension = this.props.file.name.replace(re, "");
-        const fileVideoName = nameWithoutExtension + ".mp4";
+        return (() => {
+          const re = /(?:\.([^.]+))?$/;
+          const nameWithoutExtension = this.props.file.name.replace(re, "");
+          const fileVideoName = nameWithoutExtension + ".mp4";
 
-        return {
-          type: "Video",
-          title: fileVideoName,
-          htmlContent: (
-            <video className="file__content" controls>
-              <source src={this.props.fileVideoUrl} type="video/mp4" />
-            </video>
-          ),
-        };
+          return {
+            type: "Video",
+            title: fileVideoName,
+            htmlContent: (
+              <video className="file__content" controls>
+                <source src={this.props.fileVideoUrl} type="video/mp4" />
+              </video>
+            ),
+          };
+        })();
 
       // other
       default:

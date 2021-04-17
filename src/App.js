@@ -3,9 +3,9 @@ import "regenerator-runtime/runtime.js";
 import { YMInitializer } from "react-yandex-metrika";
 import "./App.scss";
 
-import Actions from "components/Actions";
-import Form from "components/Form";
-import File from "components/File";
+import Actions from "@components/actions/Index";
+import Form from "@components/Form";
+import File from "@components/File";
 
 class App extends React.Component {
   constructor(props) {
@@ -67,53 +67,55 @@ class App extends React.Component {
   }
 
   render() {
+    const YMAccount = this.state.YMAccount;
+    const form = this.state.form;
+    const currentStep = this.currentStep;
+    const file = this.state.file;
+    const fileImageBase64 = this.state.fileImageBase64;
+    const fileVideoUrl = this.state.fileVideoUrl;
+    const isConverting = this.state.isConverting;
+    const convertingStatus = this.state.convertingStatus;
+
     return (
       <div className="app-wrapper">
         <div className="app">
           {/* title */}
           <header className="app__header">
-            <strong className="app__header-title">FFMPEG {this.currentStep.icons}</strong>
+            <strong className="app__header-title">FFMPEG {currentStep.icons}</strong>
             <div className="app__header-description">Image to video conversion</div>
           </header>
 
           {/* actions for file */}
-          {this.state.isConverting ? (
-            <div className="app__doing loading">{this.state.convertingStatus}</div>
+          {isConverting ? (
+            <div className="app__doing loading">{convertingStatus}</div>
           ) : (
             <div className="app__actions-and-form">
               <Actions
-                file={this.state.file}
-                currentStepNumber={this.currentStep.number}
-                fileVideoUrl={this.state.fileVideoUrl}
-                form={this.state.form}
+                file={file}
+                currentStepNumber={currentStep.number}
+                fileVideoUrl={fileVideoUrl}
+                form={form}
+                setConvertingStatus={(status) => this.handleState({ convertingStatus: status })}
+                onCancel={() => this.handleState({ isVideoConverted: false, fileVideoUrl: null })}
                 handleOuterState={(newState) => this.handleState(newState)}
               />
 
-              {this.currentStep.number === 2 ? (
-                <Form
-                  form={this.state.form}
-                  handleStateForm={(newForm) => this.handleStateForm(newForm)}
-                />
-              ) : null}
+              {currentStep.number === 2 && (
+                <Form form={form} onChange={(newForm) => this.handleStateForm(newForm)} />
+              )}
             </div>
           )}
 
-          {!this.state.isConverting}
-
           {/* content of file */}
-          {this.currentStep.number > 1 ? (
-            <File
-              file={this.state.file}
-              fileImageBase64={this.state.fileImageBase64}
-              fileVideoUrl={this.state.fileVideoUrl}
-            />
-          ) : null}
+          {currentStep.number > 1 && (
+            <File file={file} fileImageBase64={fileImageBase64} fileVideoUrl={fileVideoUrl} />
+          )}
 
           {/* empty space */}
-          <div style={{ height: this.currentStep.number > 1 ? "20vh" : "30vh" }} />
+          <div style={{ height: currentStep.number > 1 ? "20vh" : "30vh" }} />
         </div>
 
-        <YMInitializer accounts={[this.state.YMAccount]} />
+        <YMInitializer accounts={[YMAccount]} />
       </div>
     );
   }
