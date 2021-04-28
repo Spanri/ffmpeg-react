@@ -1,23 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { doTranscode } from "@helpers/ffmpeg.helper";
+import { STATUS_DOING } from "@helpers/status.helper";
+
+import { useDispatch } from "react-redux";
+import { setConvertingStatus, setIsConverting } from "@store/status";
+
 import Button from "@ui-components/Button";
 
-import { doTranscode } from "@helpers/ffmpeg.helper";
+const ConvertButton = (props) => {
+  const dispatch = useDispatch();
 
-class ConvertButton extends React.Component {
-  handleOuterState(newState) {
-    this.props.handleOuterState(newState);
-  }
-
-  async handleTranscode() {
-    // this.props.setStatus("doing");
-    this.handleOuterState({ convertingStatus: "doing", isConverting: true });
+  const handleTranscode = async () => {
+    dispatch(setConvertingStatus(STATUS_DOING));
+    dispatch(setIsConverting(true));
 
     const data = {
-      form: this.props.form,
-      file: this.props.file,
-      setStatus: this.props.setStatus,
+      form: props.form,
+      file: props.file,
+      setStatus: (status) => dispatch(setConvertingStatus(status)),
     };
 
     const result = await doTranscode(data);
@@ -25,27 +27,24 @@ class ConvertButton extends React.Component {
     if (result.error) {
       alert("🥴 Error: " + result.error.message);
     } else {
-      this.handleOuterState({ fileVideoUrl: result.fileVideoUrl, isVideoConverted: true });
+      props.onSetFileVideoUrl(result.fileVideoUrl);
     }
 
-    // this.props.setStatus("doing");
-    this.handleOuterState({ convertingStatus: "doing", isConverting: false });
-  }
+    dispatch(setConvertingStatus(STATUS_DOING));
+    dispatch(setIsConverting(false));
+  };
 
-  render() {
-    return (
-      <div className="buttons-header__item-wrapper">
-        <Button onClick={() => this.handleTranscode()}>Convert</Button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="buttons-header__item-wrapper">
+      <Button onClick={() => handleTranscode()}>Convert</Button>
+    </div>
+  );
+};
 
 ConvertButton.propTypes = {
   file: PropTypes.object,
   form: PropTypes.object,
-  setStatus: PropTypes.func,
-  handleOuterState: PropTypes.func,
+  onSetFileVideoUrl: PropTypes.func,
 };
 
 export default ConvertButton;

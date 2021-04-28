@@ -1,4 +1,5 @@
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
+import { STATUS_PREPARING, STATUS_CONVERTING, STATUS_LOADING } from "@helpers/status.helper";
 
 /**
  *
@@ -13,7 +14,7 @@ export const doTranscode = async ({ form, file, setStatus }) => {
     const fileExtension = re.exec(file.name)[1];
     const ffmpeg = createFFmpeg();
 
-    setStatus("preparing");
+    setStatus(STATUS_PREPARING);
 
     if (!form.width || !form.height || !form.duration) {
       throw Error({ message: "you set up the form incorrectly:(" });
@@ -33,13 +34,13 @@ export const doTranscode = async ({ form, file, setStatus }) => {
     await ffmpeg.load();
     await ffmpeg.write(`input.${fileExtension}`, file);
 
-    setStatus("converting");
+    setStatus(STATUS_CONVERTING);
 
     const firstPart = `-loop 1 -r 30 -i "input.${fileExtension}" -t ${form.duration}`;
     const secondPart = `-vf "scale=${form.width}:${form.height},format=yuv420p" -codec:v libx264 output.mp4`;
     await ffmpeg.run(`${firstPart} ${secondPart}`);
 
-    setStatus("loading");
+    setStatus(STATUS_LOADING);
 
     const data = ffmpeg.read("output.mp4");
     const fileVideoUrl = URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" }));

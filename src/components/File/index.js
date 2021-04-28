@@ -3,30 +3,22 @@ import PropTypes from "prop-types";
 
 import "./styles.scss";
 
-class File extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  get currentFile() {
+const File = (props) => {
+  const currentFile = (() => {
     switch (true) {
       // Image
-      case !!this.props.fileImageBase64 && !this.props.fileVideoUrl:
+      case !!props.fileImageBase64 && !props.fileVideoUrl:
         return {
           type: "Image",
-          title: this.props.file.name,
-          htmlContent: (
-            <img className="file__content" src={this.props.fileImageBase64} alt="Loaded" />
-          ),
+          title: props.file.name,
+          htmlContent: <img className="file__content" src={props.fileImageBase64} alt="Loaded" />,
         };
 
       // Video
-      case !!this.props.fileImageBase64 && !!this.props.fileVideoUrl:
+      case !!props.fileImageBase64 && !!props.fileVideoUrl:
         return (() => {
           const re = /(?:\.([^.]+))?$/;
-          const nameWithoutExtension = this.props.file.name.replace(re, "");
+          const nameWithoutExtension = props.file.name.replace(re, "");
           const fileVideoName = nameWithoutExtension + ".mp4";
 
           return {
@@ -34,7 +26,7 @@ class File extends React.Component {
             title: fileVideoName,
             htmlContent: (
               <video className="file__content" controls>
-                <source src={this.props.fileVideoUrl} type="video/mp4" />
+                <source src={props.fileVideoUrl} type="video/mp4" />
               </video>
             ),
           };
@@ -48,21 +40,19 @@ class File extends React.Component {
           htmlContent: null,
         };
     }
-  }
+  })();
 
-  render() {
-    return (
-      <div className="file-wrapper">
-        <div className="file__type">{this.currentFile.type}</div>
+  return (
+    <div className="file-wrapper">
+      <div className="file__type">{currentFile.type}</div>
 
-        <div className="file">
-          <div className="file__title">{this.currentFile.title}</div>
-          {this.currentFile.htmlContent}
-        </div>
+      <div className="file">
+        <div className="file__title">{currentFile.title}</div>
+        {currentFile.htmlContent}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 File.propTypes = {
   file: PropTypes.object,

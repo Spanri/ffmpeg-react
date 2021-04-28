@@ -25,6 +25,8 @@ module.exports = function override(config) {
     ...config.resolve.alias,
     react: path.join(__dirname, "node_modules", "react"),
     "@node_modules": path.join(__dirname, "node_modules"),
+    "@": path.resolve(__dirname, "src", ""),
+    "@store": path.resolve(__dirname, "src", "store"),
     "@assets": path.resolve(__dirname, "src", "assets"),
     "@components": path.resolve(__dirname, "src", "components"),
     "@ui-components": path.resolve(__dirname, "src", "ui-components"),

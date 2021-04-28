@@ -3,13 +3,9 @@ import PropTypes from "prop-types";
 
 import Button from "@ui-components/Button";
 
-class FileButton extends React.Component {
-  handleOuterState(newState) {
-    this.props.handleOuterState(newState);
-  }
-
-  get currentStep() {
-    switch (this.props.currentStepNumber) {
+const FileButton = (props) => {
+  const currentStep = (() => {
+    switch (props.currentStepNumber) {
       // Is the file not selected
       case 1:
         return {
@@ -35,53 +31,52 @@ class FileButton extends React.Component {
           selectButtonText: "Select image",
         };
     }
-  }
+  })();
 
   /**
    * Select/change image file
    */
-  onChangeFile(event) {
+  const onChangeFile = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
     if (["image/gif", "image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
-      this.handleOuterState({ file: event.target.files[0] });
+      props.onSetFile(file);
 
       if (FileReader) {
-        const self = this;
         var reader = new FileReader();
-        reader.readAsDataURL(event.target.files[0]);
+        reader.readAsDataURL(file);
 
-        reader.onload = function (e) {
-          self.handleOuterState({ fileImageBase64: e.target.result });
+        reader.onload = (e) => {
+          props.onSetFileImageBase64(e.target.result);
         };
       } else {
         alert("🤕 Not supported in your browser:(");
       }
 
-      this.handleOuterState({ fileVideoUrl: null });
+      props.onSetFileVideoUrl(null);
     } else {
       alert("🤧 You selected not an image!");
     }
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <Button theme={this.currentStep.selectButtonTheme}>
-          <div className="buttons-header__item">
-            <input type="file" accept="image/*" onChange={(event) => this.onChangeFile(event)} />
-            <span>{this.currentStep.selectButtonText}</span>
-          </div>
-        </Button>{" "}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Button theme={currentStep.selectButtonTheme}>
+        <div className="buttons-header__item">
+          <input type="file" accept="image/*" onChange={(event) => onChangeFile(event)} />
+          <span>{currentStep.selectButtonText}</span>
+        </div>
+      </Button>{" "}
+    </div>
+  );
+};
 
 FileButton.propTypes = {
   currentStepNumber: PropTypes.number,
-  handleOuterState: PropTypes.func,
+  onSetFile: PropTypes.func,
+  onSetFileVideoUrl: PropTypes.func,
+  onSetFileImageBase64: PropTypes.func,
 };
 
 export default FileButton;

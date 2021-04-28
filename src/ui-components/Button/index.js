@@ -2,30 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.scss";
 
-class Button extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  handleClick(event) {
-    if (this.props.onClick) {
-      this.props.onClick(event);
+const Button = (props) => {
+  const handleClick = (event) => {
+    if (props.onClick) {
+      props.onClick(event);
     }
-  }
+  };
 
-  render() {
-    return (
-      <button
-        className={`ui-button ${this.props.theme || "primary"}`}
-        disabled={this.props.disabled}
-        onClick={() => this.handleClick()}
-      >
-        {this.props.children}
-      </button>
-    );
-  }
-}
+  return (
+    <button
+      className={`ui-button ${props.theme || "primary"}`}
+      disabled={props.disabled}
+      onClick={handleClick}
+    >
+      {props.children}
+    </button>
+  );
+};
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

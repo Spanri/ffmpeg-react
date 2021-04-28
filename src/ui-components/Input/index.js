@@ -2,42 +2,35 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.scss";
 
-class Button extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  onlyNumber(event) {
+const Button = (props) => {
+  const onlyNumber = (event) => {
     let keyCode = event.keyCode ? event.keyCode : event.which;
     if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
       // 46 is dot
       event.preventDefault();
     }
-  }
+  };
 
-  handleChange(event) {
-    if (this.props.onChange) {
-      this.props.onChange(event.target.value);
+  const handleChange = (event) => {
+    if (props.onChange) {
+      props.onChange(event.target.value);
     }
 
-    if (this.props.onChangeFull) {
-      this.props.onChangeFull(event);
+    if (props.onChangeFull) {
+      props.onChangeFull(event);
     }
-  }
+  };
 
-  render() {
-    return (
-      <input
-        className="ui-input"
-        type={this.props.type}
-        value={this.props.value}
-        onKeyPress={(event) => (this.props.type === "number" ? this.onlyNumber(event) : null)}
-        onChange={(event) => this.handleChange(event)}
-      />
-    );
-  }
-}
+  return (
+    <input
+      className="ui-input"
+      type={props.type}
+      value={props.value}
+      onKeyPress={(event) => (props.type === "number" ? onlyNumber(event) : null)}
+      onChange={handleChange}
+    />
+  );
+};
 
 Button.propTypes = {
   type: PropTypes.string,

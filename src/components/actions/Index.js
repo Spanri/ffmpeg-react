@@ -8,47 +8,49 @@ import ConvertButton from "./buttons/ConvertButton";
 import DownloadButton from "./buttons/DownloadButton";
 import CancelButton from "./buttons/CancelButton";
 
-class Actions extends React.Component {
-  render() {
-    return (
-      <div className="buttons-header">
-        <div
-          className={`buttons-header__item-wrapper ${
-            this.props.currentStepNumber > 1 ? "" : "not-selected"
-          }`}
-        >
-          <FileButton
-            currentStepNumber={this.props.currentStepNumber}
-            handleOuterState={this.props.handleOuterState}
-          />
-        </div>
-
-        {this.props.currentStepNumber === 2 && (
-          <ConvertButton
-            file={this.props.file}
-            form={this.props.form}
-            setStatus={this.props.setConvertingStatus}
-            handleOuterState={this.props.handleOuterState}
-          />
-        )}
-
-        {this.props.currentStepNumber === 3 && <CancelButton onCancel={this.props.onCancel} />}
-
-        {this.props.currentStepNumber === 3 && (
-          <DownloadButton file={this.props.file} fileVideoUrl={this.props.fileVideoUrl} />
-        )}
+const Actions = (props) => {
+  return (
+    <div className="buttons-header">
+      <div
+        className={`buttons-header__item-wrapper ${
+          props.currentStepNumber > 1 ? "" : "not-selected"
+        }`}
+      >
+        <FileButton
+          currentStepNumber={props.currentStepNumber}
+          handleOuterState={props.handleOuterState}
+          onSetFile={props.onSetFile}
+          onSetFileVideoUrl={props.onSetFileVideoUrl}
+          onSetFileImageBase64={props.onSetFileImageBase64}
+        />
       </div>
-    );
-  }
-}
+
+      {props.currentStepNumber === 2 && (
+        <ConvertButton
+          file={props.file}
+          form={props.form}
+          onSetFileVideoUrl={props.onSetFileVideoUrl}
+        />
+      )}
+
+      {props.currentStepNumber === 3 && <CancelButton onCancel={props.onCancel} />}
+
+      {props.currentStepNumber === 3 && (
+        <DownloadButton file={props.file} fileVideoUrl={props.fileVideoUrl} />
+      )}
+    </div>
+  );
+};
 
 Actions.propTypes = {
   file: PropTypes.object,
   currentStepNumber: PropTypes.number,
   fileVideoUrl: PropTypes.string,
   form: PropTypes.object,
-  setConvertingStatus: PropTypes.func,
   onCancel: PropTypes.func,
+  onSetFile: PropTypes.func,
+  onSetFileVideoUrl: PropTypes.func,
+  onSetFileImageBase64: PropTypes.func,
   handleOuterState: PropTypes.func,
 };
 
