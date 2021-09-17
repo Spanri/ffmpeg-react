@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/ffmpeg-react/static/css/main.023021ee.chunk.css",
+    "main.js": "/ffmpeg-react/static/js/main.5367f145.chunk.js",
+    "main.js.map": "/ffmpeg-react/static/js/main.5367f145.chunk.js.map",
+    "runtime-main.js": "/ffmpeg-react/static/js/runtime-main.d765fb17.js",
+    "runtime-main.js.map": "/ffmpeg-react/static/js/runtime-main.d765fb17.js.map",
+    "static/js/2.1ba0ae3c.chunk.js": "/ffmpeg-react/static/js/2.1ba0ae3c.chunk.js",
+    "static/js/2.1ba0ae3c.chunk.js.map": "/ffmpeg-react/static/js/2.1ba0ae3c.chunk.js.map",
+    "index.html": "/ffmpeg-react/index.html",
+    "precache-manifest.3d79309242b0cab48c6f8962b467f7ee.js": "/ffmpeg-react/precache-manifest.3d79309242b0cab48c6f8962b467f7ee.js",
+    "service-worker.js": "/ffmpeg-react/service-worker.js",
+    "static/css/main.023021ee.chunk.css.map": "/ffmpeg-react/static/css/main.023021ee.chunk.css.map",
+    "static/js/2.1ba0ae3c.chunk.js.LICENSE.txt": "/ffmpeg-react/static/js/2.1ba0ae3c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d765fb17.js",
+    "static/js/2.1ba0ae3c.chunk.js",
+    "static/css/main.023021ee.chunk.css",
+    "static/js/main.5367f145.chunk.js"
+  ]
+}
