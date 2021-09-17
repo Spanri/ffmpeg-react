@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "regenerator-runtime/runtime.js";
-import { YMInitializer } from "react-yandex-metrika";
+// import { YMInitializer } from "react-yandex-metrika";
 import "./App.scss";
 import { useSelector } from "react-redux";
 
@@ -34,7 +34,7 @@ const Loader = () => {
 };
 
 const App = () => {
-  const YMAccount = 85318249;
+  // const YMAccount = 85318249;
 
   const [file, setFile] = useState(null);
   const [fileImageBase64, setFileImageBase64] = useState("");
@@ -123,10 +123,10 @@ const App = () => {
         <div style={{ height: currentStep.number > 1 ? "20vh" : "30vh" }} />
       </div>
 
-      <YMInitializer
+      {/* <YMInitializer
         accounts={[YMAccount]}
         options={{ clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true }}
-      />
+      /> */}
     </div>
   );
 };
