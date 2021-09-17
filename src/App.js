@@ -123,7 +123,10 @@ const App = () => {
         <div style={{ height: currentStep.number > 1 ? "20vh" : "30vh" }} />
       </div>
 
-      <YMInitializer accounts={[YMAccount]} />
+      <YMInitializer
+        accounts={[YMAccount]}
+        options={{ clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true }}
+      />
     </div>
   );
 };
